@@ -17,28 +17,61 @@ typedef struct CircularList
 
 void insertAfter(CircularList *CircularList, int value);
 void displayListValues(CircularList *List);
+void movePosition(CircularList *List, int position);
+int removeOneAfterCurrent(CircularList *CircularList);
+int JosephusProblem(CircularList *List, int M);
 CircularList *startCircularList();
 
 int main(int argc, char const *argv[])
 {
-
+	int M, n;
 	CircularList *CircularList = startCircularList();
 
-	for (int i = 0; i < 20; ++i)
+	printf("How many soldiers?\n");
+	scanf("%d",&n);
+
+	for (int i = 1; i <= n; ++i)
 	{
 
 		insertAfter(CircularList, i);
 
 	}
 
-	printf("%d\n", CircularList->begin->value);
-	printf("Hellou\n");
+	printf("\nOrder to kill\n");
+	scanf("%d", &M);
 
-	displayListValues(CircularList);
+	printf("\nJosephus should be soldier %d or he whould be dead...\n\n",JosephusProblem(CircularList, M));
 
 	return 0;
 }
 
+void movePosition(CircularList *List, int position){
+
+	if(List->size != 0){
+
+		for(int i = 0; i < position; i++){
+
+			List->begin = List->begin->next;
+
+		}
+
+	}
+
+}
+
+int removeOneAfterCurrent(CircularList *List){
+
+
+	Josephus *aux = List->begin->next;
+	int deadJosephus = aux->value;
+
+	List->begin->next = aux->next;
+	free(aux);
+	(List->size)--;
+
+	return deadJosephus;
+
+}
 
 void insertAfter(CircularList *CircularList, int value){
 
@@ -76,6 +109,25 @@ void displayListValues(CircularList *List){
 
 }
 
+int JosephusProblem(CircularList *List, int M){
+
+	int i = List->size;
+	int deadJosephus;
+
+	while(List->size > 1){
+
+		movePosition(List, M - 1);
+		deadJosephus = removeOneAfterCurrent(List);
+
+		printf("Round %d\n", i - List->size);
+		printf("Soldier %d dead!\n\n", deadJosephus);
+
+	}
+
+	return List->begin->value;
+
+}
+
 CircularList *startCircularList(){
 
 	CircularList *newCircularList = malloc(sizeof(CircularList));
@@ -83,4 +135,6 @@ CircularList *startCircularList(){
 	newCircularList->begin = NULL;
 
 	return newCircularList;
+
 }
+
