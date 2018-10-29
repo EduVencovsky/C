@@ -52,14 +52,18 @@ void countSort(char array[])
     }
 } 
   
-int main() 
+int main(int argc, char *argv[]) 
 { 
-    char array[999];// = "413412535645747674563234";
-	scanf("%s",&array);
-  
-    countSort(array); 
-  
-    printf("\nVetor ordenado\n%s\n", array); 
+    if(argc == 2){
+      
+        countSort(argv[1]); 
+      
+        printf("\nVetor ordenado\n%s\n", argv[1]); 
+        
+    } else {
+
+        printf("Wrong Arguments.\n");
+    }
     return 0; 
 } 
 
